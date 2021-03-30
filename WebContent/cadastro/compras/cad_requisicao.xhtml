@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+	
+			<ui:define name="corpo">
+			    
+				<div class="panel panel-info" style="margin: 0px;">	
+					<div class="panel-heading">
+		                 <div class="row show-grid">
+		                      <div class="col-md-8" style="padding-top: 6px; font-size: 16px;">Cadastro de requisição de compra - Nº: #{requisicaoBeanView.mostraNumRC}</div>
+		                      <div class="col-md-2" style="padding-top: 6px; font-size: 16px;">Valor total: #{requisicaoBeanView.objetoSelecionado.total}</div>
+		                      <div class="col-md-2">
+		                      	<p:commandLink onclick="javascript:redirecionaListaCompras('#{request.contextPath}')">
+			                      <button type="button" id="button_criar" class="btn btn-primary btn-rounded btn-sm my-0"
+			                      		>Lista de requisição</button>
+			                      </p:commandLink>
+		                      </div>
+		                 </div>                            
+		            </div>
+				</div>	
+				<h:form id="formCadastro" prependId="false">									
+					<c:set var="isCadastro" value="false" scope="view"/>	
+
+					<div class="panel-footer">
+						<div class="row">							
+							<div class="col-lg-1">
+								<h:outputLabel for="fornecedor" value="Fornecedor "/>
+							</div>
+							<div class="col-lg-3">								
+								<p:selectOneMenu id="fornecedor" filter="true" required="true" style="width: 200px;"
+												value="#{requisicaoBeanView.objetoSelecionado.fornecedor}" effect="fold"									    
+											    requiredMessage="Faltou selecionar o campo obrigatório 'Fornecedor'!!">
+											    
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione um fornecedor"/>								
+									<f:selectItems value="#{fornecedorBeanView.fornecedoresConverter}"/>									
+								</p:selectOneMenu>
+							</div>
+
+							<div class="col-lg-2">
+		                    	<h:outputLabel value="Descrição do pedido" id="labelDescricao" 
+		                    					for="descricao"/>
+							</div>
+							<div class="col-lg-6"></div>
+							<div class="col-lg-12">
+								<p:inputTextarea id="descricao" required="true" maxlength="100" 
+										value="#{requisicaoBeanView.objetoSelecionado.descricao}" style="width: 100%;" 
+										requiredMessage="Informe descrição!" placeholder="Descreva aqui os dados pertinentes..."/>
+								<p:message for="descricao"/>	
+							</div>
+						</div>
+						
+						<div class="row show-grid" style="margin-top: 15px;">
+			          			<div class="col-md-12">					
+									<util:botoesRequisicaoCrud 
+												managedBeanView="#{requisicaoBeanView}" 
+												camposReload=":formTemplate:msg, tableResultItens"
+												botaoNovo="#{contextBean.possuiAcesso('USER', 'ADMIN')}"
+												botaoSalva="#{contextBean.possuiAcesso('USER', 'ADMIN') and requisicaoBeanView.objetoSelecionado.id == null}"
+												botaoAtualizar="#{contextBean.possuiAcesso('USER', 'ADMIN') and requisicaoBeanView.objetoSelecionado.id != null}">
+									</util:botoesRequisicaoCrud>					
+			          			</div>
+			          		</div>
+				    </div>
+											
+					<div class="espacoBranco"/>
+									
+						<p:dataTable id="tableResultItens" value="#{requisicaoBeanView.objetoSelecionado.itens}" 
+							var="objeto" emptyMessage="Sem valores para exibição..."
+							rows="5"
+							paginator="true" 
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+												
+							<p:column>
+									<center>
+										<f:facet name="header">ID do ITEM</f:facet>
+										<h:outputText value="#{objeto.id}" />
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Nome</f:facet>
+										<h:outputText value="#{objeto.nome}" />
+									</center>
+							</p:column>
+							
+							<p:column >
+									<center>
+										<f:facet name="header">Conta Razão</f:facet>
+										<h:outputText value="#{objeto.conta.descricao}" />
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Valor</f:facet>
+										<h:outputText value="#{objeto.valor}"/>
+									</center>
+							</p:column>
+							
+							<p:column style="width: 50px;" exportable="false">
+								<center>
+									<f:facet name="header">Excluir</f:facet>
+									<p:commandButton  icon="ui-icon-trash"
+												actionListener="#{requisicaoBeanView.excluir}" 
+												update=":formTemplate:formCadastro:tableResultItens"
+												process="@this">
+												<f:attribute name="itemExclui" value="#{objeto}"/>	
+									</p:commandButton>
+									
+								</center>
+							</p:column>
+							
+						</p:dataTable>
+						
+						
+												
+				</h:form>
+				
+				<p:dialog widgetVar="dialogo" 
+								draggable="false" resizable="false" modal="true" closable="false"
+								width="700" hideEffect="fade">	
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										Adicionar materiais para requisição
+									 </div>
+								 </div>				
+							<h:form id="formAddItem">			
+		
+								<p:dataTable id="tableResult" value="#{itemBeanView.itens}" 
+											var="objeto" emptyMessage="Sem valores para exibição..." 
+											rendered="#{itemBeanView.itens.size() > 0}"
+											rows="8"
+											paginator="true" 
+											paginatorPosition="bottom"
+											paginatorTemplate=" {FirstPageLink}
+																{PreviousPageLink} {PageLinks}
+																{NextPageLink} {LastPageLink} 
+																{RowsPerPageDropdown} ">
+																
+								<p:column>
+										<center>
+											<h:outputText value="#{objeto.nome}" />
+										</center>
+								</p:column>
+								
+								<p:column style="width: 50px;" 	>
+										<center>
+											<p:commandButton icon="ui-icon-plus" title="Adicionar Procedimento" 
+												actionListener="#{requisicaoBeanView.adicionar}" 
+												update=":formTemplate:formCadastro:tableResultItens"
+												process="@this">
+												
+												<f:attribute name="itemAdicionado" value="#{objeto}"/>	
+											</p:commandButton>
+										</center>
+									</p:column>					
+								</p:dataTable>
+								
+								<h:panelGrid columns="2">
+
+									<p:commandButton value="Fechar" 
+													oncomplete="PF('dialogo').hide();" 
+													style="height:40px;width:100px;background:#CDCDC1;border: 1px solid #FFFFFF;"/>
+									
+								</h:panelGrid>
+											
+							</h:form>		
+						</p:dialog>
+				<script type="text/javascript" charset="UTF-8">
+				    addFocoCampo("descricao");
+					gerenciaTeclaEnter();
+				</script>		
+				
+			</ui:define>	
+	</ui:composition>
+		
+</html>

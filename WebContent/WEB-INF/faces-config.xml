@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+    http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+    
+    <!-- O QUE É FACES-CONFIG?
+    	ARQUIVO DE CONFIGURAÇÃO DO JSF, PODENDO DECLARAR REGRAS DE NAVEGAÇÃO, BENS GERENCIAVEIS, CONVERSORES, VALIDADORES. -->
+    
+    <!--E PARA INTEGRAR JSF COM SPRING?	PRECISAMOS DECLAR FECES EL-RESOUVER, FAZENDO O SPRING ENXERGAR O JSF. -->    
+    <application>
+    	<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+    	
+    	<system-event-listener>
+    		<system-event-listener-class>br.com.project.bean.geral.ViewScopeCallbackRegistrer</system-event-listener-class>
+    		<system-event-class>javax.faces.event.PostConstructViewMapEvent</system-event-class>
+    		<source-class>javax.faces.component.UIViewRoot</source-class>
+    	</system-event-listener>
+    	
+    	<system-event-listener>
+    		<system-event-listener-class>br.com.project.bean.geral.ViewScopeCallbackRegistrer</system-event-listener-class>
+    		<system-event-class>javax.faces.event.PreDestroyViewMapEvent</system-event-class>
+    		<source-class>javax.faces.component.UIViewRoot</source-class>
+    	</system-event-listener>
+    	
+    	<action-listener>org.primefaces.application.DialogActionListener</action-listener>
+    	<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+    	<view-handler>org.primefaces.application.DialogViewHandler</view-handler>    	
+    	
+    </application>
+    
+    <factory>
+    	<exception-handler-factory>br.com.project.exception.CustomExceptionHandlerFactory</exception-handler-factory>
+    </factory>
+
+</faces-config>

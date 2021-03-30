@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	<!-- appendTo: Para pular a frente do sistema e não ter conflito 
+		 dynamic: Serve para carregar dados do lado servidor, como carregar uma tabela e apos mostrar na view - true-->
+	
+	<ui:composition>
+		<p:ajaxStatus id="ajaxStatus" onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+	
+		<p:dialog id="dialogoAjaxStatus" modal="true" widgetVar="statusDialog"
+					height="200px;" width="200px;" header="Processando" footer="Aguarde..."
+					draggable="false" appendTo="@(body)" dynamic="false" resizable="false"
+					closable="false" >
+			<h:graphicImage library="img" name="ajax-loader.gif" id="imgAjaxLoader" styleClass="bordaImagem"/>
+		</p:dialog>
+	
+		<p:dialog id="dialogAjaxStatusError" modal="true" widgetVar="statusDialogError"
+					height="200px;" width="200px;" resizable="false" header="Erro ao processar." footer="Erro"
+					draggable="false" closable="true">
+			<h:graphicImage library="img" name="error.png" id="imgAjaxLoaderError" styleClass="bordaImagem"/>
+		</p:dialog>
+		
+		
+	</ui:composition>
+	
+		
+</html>

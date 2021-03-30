@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="default" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1ebfea3-8e22-4cb7-8d9c-2ebc3f12960d">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="REPORT_PARAMETERS_IMG" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="161" splitType="Stretch">
+			<image isUsingCache="false" isLazy="true">
+				<reportElement x="0" y="0" width="555" height="161" uuid="1a36261c-ecf1-45e0-a8cd-9c69e21fb774"/>
+				<imageExpression><![CDATA[$P{REPORT_PARAMETERS_IMG} + "banner-relatorio.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="114" width="323" height="20" uuid="9e93caad-0c58-488c-8512-83e0065a2304"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Geração de relatório das atividades | Gerenciador Industrial - ]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="323" y="114" width="100" height="20" uuid="247f54d0-906b-4a7f-8e43-3624772d3dfb"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="50" splitType="Stretch"/>
+	</summary>
+</jasperReport>

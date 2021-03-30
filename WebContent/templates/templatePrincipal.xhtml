@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"	
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<sec:isAuthenticated>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="icon" href="../resources/icon/gear-icon.png"/>
+		<title><ui:insert name="titulo">Gerenciado Ind.</ui:insert></title>
+		<h:outputStylesheet library="css" name="fontawesome.css"/>
+		<h:outputScript name="jquery.js" library="primefaces/jquery" id="jsJquery" />
+		<h:outputScript name="primefaces.js" library="primefaces" 	id="jsPrime" />
+		<h:outputScript name="jquery-plugins.js" library="primefaces/jquery" id="jsJqueryPlugin" />
+		<h:outputScript name="jquery.cookie.js" library="javascript" id="jsJaqueryCookie" />
+		<h:outputStylesheet name="jquery-ui.css" library="primefaces/jquery/ui"	id="jsJqueryUi" />
+		<h:outputStylesheet name="primefaces.css" library="primefaces"	id="jdPrimeCss" />
+		<h:outputScript name="jquery.maskMoney.min.js" library="javascript"	id="jsMaskMoneySistema" />
+		<h:outputScript name="jquery.maskedinput.js" library="javascript"	id="jsMaskInputSistema" />
+		<h:outputScript name="scripty.js" library="javascript" 	id="jsScriptSistema" />
+		<h:outputScript name="jquery_scripty.js" library="javascript" 	id="jqueryScriptSistema" />
+		<h:outputStylesheet library="css" name="bootstrap.min.css" 	id="cssBootstrap" />
+		<h:outputScript name="googlechart.js" library="javascript"/>
+		<h:outputScript name="deployJava.js" library="javascript"/>
+		<h:outputScript name="chart.min.js" library="javascript"/>
+		<h:outputScript name="chart.js" library="javascript"/>
+		<h:outputScript name="jsf.js" library="javax.faces"/>
+		
+		<link rel="stylesheet" type="text/css" href="./resources/fonte/font-awesome.min.css"/>
+		<link rel="stylesheet" href="./resources/css/all.css"/>
+		
+		<h:outputStylesheet library="css" name="estilo.css" id="cssStiloSistema"/>
+	</h:head>
+	
+	<h:form id="formTemplate" prependId="false">
+			
+		<h:body>
+			<script type="text/javascript" charset="UTF-8">
+				$.noConflict();
+				localeData_pt_br();
+				initTamplete();
+				ocultarMenu();
+				initMenuSetor();
+				ocultarMenuSetor();
+
+				/*BLOQUEIO DA TELCA F5*/
+				$(document).keydown(function(e){
+					if(e.which == 116){
+						return 116;
+					}
+				});
+			</script>
+			
+			<!-- ToolTip podemos deixar ativado para tudo globalSelector="a, :input, :button"-->
+			
+			<ui:include src="/templates/barraProgresso.xhtml"/>
+			<div id="msgError">
+				<p:growl id="msg" showDetail="false" sticky="true" redisplay="true" autoUpdate="true" life="6000"/>
+				<p:tooltip id="toolTipFocus" globalSelector="a, :input, :button" showEffect="focus" hideEvent="blur"/>
+				
+			</div>
+			
+			<div id="container">
+				<div id="topo">
+ 				  <span style="position: absolute;left: 20px;top: 14px" id="spanLogo">
+ 				  		<a href="#" onclick="javascript:redirecionaIncioPage('#{request.contextPath}')">
+ 				  			<h:graphicImage library="img" name="logo-g.png" width="200" 
+ 				  									id="logoImg" styleClass="bordaImagem"/>
+ 				  		</a>
+ 				  </span>
+ 				  <span id="dadoslogin"> Usuário: #{entidadeBeanView.usuarioLogadoSecurity}
+ 				  	<br id="quebraUser"/>
+ 				  	 Último login:
+ 				  	 <h:outputLabel value="#{entidadeBeanView.ultimoAcesso}"
+ 				  	  id="saidaUltimoAcesso">
+						<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy HH:mm:ss"
+						dateStyle="long" timeStyle="full" timeZone="GMT-03:00"/> 				  	 	
+ 				  	 </h:outputLabel>
+ 				  	 <br id="quebraUltimoAcesso"/>
+ 				  	 <a href="#" onclick="javascript:logout('#{request.contextPath}')">
+ 				  	 	<h:graphicImage library="icon" name="Logout-icon (1).png" style="width: 20px;" title="Sair do sistema"/>
+ 				  	 </a>
+ 				  </span>
+					
+					<span id="menuSistema" style="position: absolute; right: 25px; top: 48px; width: 20px;">
+						<a href="#" onclick="abrirMenupop();">
+							<h:graphicImage library="img" name="setabaixo.png" styleClass="bordaimagem" id="imaSetaBaixo"/>
+						</a>
+					</span>					
+				</div>
+				
+				<div id="menu">
+					<span id="iniciarmenu">
+						<h:graphicImage library="img" name="iconemenu.png" title="Menu" styleClass="bordaimagem" id="iconemenu">
+						Menu </h:graphicImage>
+					</span>
+				</div>
+				
+				<div id="corpo" class="corpo">
+					<ui:insert name="corpo"/>
+				</div>
+				
+				<div id="menupop">
+					
+					<sec:ifAnyGranted roles="USER, ADMIN">
+						<p:commandLink actionListener="#{mensagemBeanView.novo()}" 
+							onsuccess="enviarMsgDialog.show();"
+							value="Enviar mensagem" immediate="true" style="display: block;" 
+							id="enviarMensagem" ajax="true" process="@this">	
+						
+							<p:ajax immediate="true" listener="#{mensagemBeanView.novo()}"/>
+											
+						</p:commandLink>
+					</sec:ifAnyGranted>
+				
+				 	<a href="#" onclick="alterarSenhaDialog.show();" style="display: block;" id="alterarSenha">
+				 		<span style="display: block;" id="spanAlterarSenha">Alterar Senha</span>
+				 	</a>
+				</div>
+				
+				<div id="barramenu">
+					<p:tieredMenu id="menuEsquerda" style="width: 185px; border: none; background: none; color:#000;">
+					
+						<p:menuitem value="Início" icon="ui-icon-home"
+							id="menuinicio" ajax="true" onclick="javascript:redirecionaIncioPage('#{request.contextPath}')"/>
+						
+						<sec:ifAnyGranted roles="USER, ADMIN">										
+								<p:menuitem immediate="true" value="Documento" id="menuDocumento" action="/cadastro/cad_documento.jsf?faces-redirect=true"  icon="ui-icon-bookmark"/>								
+								<p:menuitem immediate="true" value="Produto" id="menuProduto" action="/cadastro/cad_produto.jsf?faces-redirect=true" icon="ui-icon-bookmark"/>		
+						</sec:ifAnyGranted>
+						
+						<sec:ifAnyGranted roles="USER, ADMIN">
+								<p:submenu label="Setores" id="subMenuSetores" icon="ui-icon-folder-collapsed">
+										<p:menuitem value="Cadastro Setor" immediate="true" id="menuSetor" action="/cadastro/setores/cad_setor.jsf?faces-redirect=true"/>
+										<p:menuitem value="Cadastro procedimento" immediate="true" id="menuProcedimento" action="/cadastro/setores/cad_procedimento.jsf?faces-redirect=true"/>
+										
+								</p:submenu>
+						</sec:ifAnyGranted>
+						
+						<sec:ifAnyGranted roles="ADMIN">
+								<p:submenu label="Metas de produção" id="subMenuMetas" icon="ui-icon-folder-collapsed">
+										<p:menuitem value="Criar Meta do mês" immediate="true" id="menuMeta" action="/cadastro/metas/cad_metaProdutiva.jsf?faces-redirect=true"/>
+								</p:submenu>
+						</sec:ifAnyGranted>
+						
+						<sec:ifAnyGranted roles="USER, ADMIN">
+								<p:submenu label="Requisições" id="subMenuRequisicao" icon="ui-icon-calculator">
+										<p:menuitem value="Realizar requisição" immediate="true" id="menuCompra" action="/cadastro/compras/cad_requisicao.jsf?faces-redirect=true"/>
+										<p:menuitem value="Cadastro Itens" immediate="true" id="menuItem" action="/cadastro/compras/cad_item.jsf?faces-redirect=true"/>
+										<p:menuitem value="Fornecedor" immediate="true" id="menuFornecedor"  action="#{fornecedorBeanView.redirecionarFindEntidade()}"/>
+										<p:menuitem value="Listar Requisição" immediate="true" id="menuLista" action="/cadastro/compras/listar_requisicoes.jsf?faces-redirect=true"/>
+								</p:submenu>
+						</sec:ifAnyGranted>
+						
+						<sec:ifAnyGranted roles="ADMIN">
+								<p:submenu label="Orçamento anual" id="subMenuOrcamento" icon="ui-icon-folder-collapsed">
+										<p:menuitem value="Gerar Orçamento" immediate="true" id="menuOrcamento" action="/cadastro/orcamento/cad_orcamentoAnual.jsf?faces-redirect=true"/>
+										<p:menuitem value="Conta Razão" immediate="true" id="menuConta" action="/cadastro/orcamento/cad_conta.jsf?faces-redirect=true"/>
+								</p:submenu>
+						</sec:ifAnyGranted>
+						
+						<sec:ifAnyGranted roles="ADMIN">
+								<p:submenu label="Gerenciar usuários" id="subMenuUsuario" icon="ui-icon-person">
+										<p:menuitem value="Funcionários" immediate="true" id="menuUsuario" action="/cadastro/usuarios/usuarios.jsf?faces-redirect=true"/>
+								</p:submenu>
+						</sec:ifAnyGranted>
+
+						<p:menuitem immediate="true" icon="ui-icon-mail-closed"
+							value="Mensagens" id="id_correio" action="/cadastro/usuarios/mensagensUsuarios.jsf?faces-redirect=true"/>
+							
+						<p:menuitem value="Sair" icon="ui-icon-closethick"
+							onclick="javascript:logout('#{request.contextPath}')" id="menusair" ajax="true"/>
+														
+					</p:tieredMenu>
+				</div>
+				
+			</div>
+			
+			<!-- ENVIAR MENSAGEM AQUI ******** -->
+			<p:dialog widgetVar="enviarMsgDialog" id="alterarMsgDialog" width="800" modal="true" resizable="false"
+						height="470" dynamic="true" appendToBody="false" styleClass="panel panel-primary">
+				<ui:include src="/cadastro/dialog_enviarMsg.xhtml"/>
+			</p:dialog>
+			
+			<!-- ALTERAR SENHA AQUI ******** -->
+			<p:dialog widgetVar="alterarSenhaDialog" id="alterarSenhaDialog" width="340" modal="true" resizable="false"
+						height="260" dynamic="true" appendToBody="false" style="margin-left: 0;margin-right: 0;padding: 0;">
+				<ui:include src="/cadastro/dialog_alterar_senha.xhtml"/>
+			</p:dialog>		
+			
+		
+		</h:body>		
+	</h:form>
+				
+	<script type="text/javascript" charset="UTF-8">
+		carregarIdElementosPagina();		
+	</script>
+</sec:isAuthenticated>		
+</html>

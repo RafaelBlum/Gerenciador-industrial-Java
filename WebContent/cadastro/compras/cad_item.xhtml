@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+			<ui:define name="corpo">
+				<div class="panel panel-info" style="margin: 0px;">	
+					<div class="panel-heading">
+		                 
+		                 <div class="row show-grid">
+		                      <div class="col-md-10" style="padding-top: 6px; font-size: 16px;">Cadastro Itens para requisição de compra</div>
+		                      <div class="col-md-2"><ui:include src="/resources/components/menuImpressao.xhtml"/></div>
+		                 </div>                            
+		            </div>
+				</div>
+				<h:form id="formCadastro" prependId="false">
+				
+					<!-- USANDO JSP ABAIXO: CRIAMOS UMA VARIAVEL ONDE VAMOS DEFINIR A OPÇÃO DE CADASTRO OU NÃO -->
+					<c:set var="isCadastro" value="false" scope="view"/>
+
+					<div class="panel-footer" id="painelCadastro" >
+						<div class="row">
+			                 <div class="col-lg-5">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-1">
+										<p:outputLabel value="Nome" id="labelNomeItem" for="itemNome" style="margin-top: 8px;"/>
+	                                </div>
+	                                <div class="col-md-11">
+	                                	<p:inputText id="itemNome" style="width: 100%;"
+											required="true" maxlength="50" value="#{itemBeanView.objetoSelecionado.nome}"
+											requiredMessage="Informe nome do item!" placeholder="Insira nome"/>
+										<p:message for="itemNome"/>
+	                                </div>
+	                            </div>
+			                 </div>
+			                 <div class="col-lg-3">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-4">
+										<p:outputLabel value="Valor R$" id="labelValorItem" for="itemValor" style="margin-top: 8px;"/>
+	                                </div>
+	                                <div class="col-md-8">
+	                                	<p:inputText id="itemValor" style="width: 100%;"
+											required="true" maxlength="50" value="#{itemBeanView.objetoSelecionado.valor}"
+											requiredMessage="Informe valor do item!" placeholder="Insira valor"/>
+										<p:message for="itemValor"/>
+	                                </div>
+	                            </div>
+			                 </div>
+			                 <div class="col-lg-4">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-4">
+										<p:outputLabel for="conta" value="Conta Razão" style="margin-top: 8px;"/>
+	                                </div>
+	                                <div class="col-md-8">
+	                                	<p:selectOneMenu id="conta" filter="true" required="true" style="width: 100%;"
+														value="#{itemBeanView.objetoSelecionado.conta}" 										    
+													    requiredMessage="Faltou selecionar o campo obrigatório 'Conta Razão'!!">
+													    
+											<f:selectItem noSelectionOption="true" itemLabel="Selecione uma RC"/>								
+											<f:selectItems value="#{contaRazaoBeanView.contasRazao}"/>									
+										</p:selectOneMenu>
+	                                </div>
+	                            </div>
+			                 </div>
+			            </div>
+			            <div class="row show-grid" style="margin-top: 15px;">
+			          			<div class="col-md-12">					
+									<util:botoesCrud 
+												managedBeanView="#{itemBeanView}" 
+												camposReload=":formTemplate:msg, tableResult"
+												botaoNovo="#{contextBean.possuiAcesso('USER', 'ADMIN')}"
+												botaoSalva="#{contextBean.possuiAcesso('USER', 'ADMIN') and itemBeanView.objetoSelecionado.id == null}"
+												botaoAtualizar="#{contextBean.possuiAcesso('USER', 'ADMIN') and itemBeanView.objetoSelecionado.id != null}">					
+									</util:botoesCrud>					
+			          			</div>
+			          		</div>
+			        </div>
+
+				</h:form>
+				
+				<script type="text/javascript" charset="UTF-8">
+				    addFocoCampo("itemNome");
+					gerenciaTeclaEnter();
+				</script>
+				
+				<div class="espacoBranco"/>
+				
+				<p:dataTable id="tableResult" value="#{itemBeanView.itens}" 
+							var="objeto" emptyMessage="Sem valores para exibição..." 
+							rendered="#{itemBeanView.itens.size() > 0}"
+							rows="10"
+							paginator="true" 
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+							
+							<p:column style="text-align: center;">
+										<f:facet name="header">Itens</f:facet>
+										<h:outputText value="#{objeto.nome}" />
+							</p:column>
+							
+							<p:column style="text-align: center;">
+										<f:facet name="header">Valor R$</f:facet>
+										<h:outputText value="#{objeto.valor}" />
+							</p:column>
+							
+							<p:column style="text-align: center;">
+										<f:facet name="header">Conta Razão</f:facet>
+										<h:outputText value="#{objeto.conta.descricao}" />
+							</p:column>
+							
+							<p:column style="width: 50px;" exportable="false"	>
+								<center>
+									<f:facet name="header">Editar</f:facet>							
+									<p:commandLink action="#{itemBeanView.editar()}" id="editarItem" 
+												ajax="true" immediate="true" update="@form:formCadastro"												
+												oncomplete="addFocoAoCampo('itemNome');">
+												
+										<h:graphicImage library="icon" name="Edit-validated-icon32.png" style="width: 24px;"/>
+										<f:setPropertyActionListener target="#{itemBeanView.objetoSelecionado}" value="#{objeto}"/>
+									</p:commandLink>
+		
+								</center>
+							</p:column>
+							
+							<p:column style="width: 50px;" exportable="false">
+								<center>
+									<f:facet name="header">Excluir</f:facet>
+									<p:commandLink action="#{itemBeanView.excluir()}" id="excluirItem" 
+													ajax="true" immediate="true" update="tableResult" 
+													onclick="if(!confirm('Confirma a exclusão do Item : #{objeto.nome}?')) 
+														return false;">
+											<h:graphicImage library="icon" name="Trash-icon32.png" style="width: 24px;"/>	
+											<f:setPropertyActionListener target="#{itemBeanView.objetoSelecionado}" value="#{objeto}"/>
+									</p:commandLink>
+								</center>
+							</p:column>
+										
+				</p:dataTable>
+			</ui:define>	
+	</ui:composition>
+		
+</html>

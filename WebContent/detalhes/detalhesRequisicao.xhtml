@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+			<ui:define name="corpo">
+			<p:growl id="mensagem"/>
+			
+			<h:form id="formRC">	
+
+				<div class="row">			
+					<div class="col-lg-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                            	 #{requisicaoBeanView.objetoSelecionado.descricao}                               
+                           	</div>
+                            
+                            <div class="panel-body">
+                                <div class="row">
+				                    <div class="col-lg-12" style="font-size: 14px;">
+				                       Nº RC: #{requisicaoBeanView.objetoSelecionado.numero}<br />
+				                       ID da RC: #{requisicaoBeanView.objetoSelecionado.id}<br />
+				                       Data: #{requisicaoBeanView.objetoSelecionado.dataRequisicao}<br />
+				                       Total R$: #{requisicaoBeanView.objetoSelecionado.total}<br />
+				                       Total Itens: #{requisicaoBeanView.objetoSelecionado.itens.size()}
+				                    </div>
+						
+                				</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                   <p:commandButton value="Atualizar" id="buttonAtualizar" 
+									style="height: 40px; width: 100px; border: 1px solid #FFFFFF;" 
+		                          	styleClass="btn btn-success btn-sm"
+									action="#{requisicaoBeanView.editar}" 
+									>				
+					</p:commandButton>			
+	               <p:commandButton value="Voltar" id="buttonVoltar" 
+								style="height: 40px; width: 100px; border: 1px solid #FFFFFF;" 
+	                          	styleClass="btn btn-success btn-sm"
+								action="#{requisicaoBeanView.voltar}" 
+								>				
+					</p:commandButton>	                        			
+                   </div>
+                </div> 
+
+
+				<p:dataTable id="tableResultItens" value="#{requisicaoBeanView.objetoSelecionado.itens}" 
+							var="objeto" emptyMessage="Sem valores para exibição..."
+							rows="5"
+							paginator="true" 
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+												
+							<p:column>
+									<center>
+										<f:facet name="header">ID do ITEM</f:facet>
+										<h:outputText value="#{objeto.id}" />
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Nome</f:facet>
+										<h:outputText value="#{objeto.nome}" />
+									</center>
+							</p:column>
+							
+							<p:column >
+									<center>
+										<f:facet name="header">Conta Razão</f:facet>
+										<h:outputText value="#{objeto.conta.descricao}" />
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Quantidade</f:facet>
+										<h:outputText value="#{objeto.quatidade}"/>
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Valor</f:facet>
+										<h:outputText value="#{objeto.valor}"/>
+									</center>
+							</p:column>
+							
+						</p:dataTable>
+				</h:form>
+				
+				
+				
+			</ui:define>	
+	</ui:composition>
+		
+</html>

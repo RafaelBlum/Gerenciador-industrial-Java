@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+.panel-body{
+	margin: 2px;
+}
+
+#corpo{		
+	background: url("#{resource['img:background.png']}");
+	background-size: cover;
+}
+
+

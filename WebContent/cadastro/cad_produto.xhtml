@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+			<ui:define name="corpo">
+				<div class="panel panel-info" style="margin: 0px;">	
+					<div class="panel-heading">
+		                 
+		                 <div class="row show-grid">
+		                      <div class="col-md-10" style="padding-top: 6px; font-size: 16px;">Cadastro Produto</div>
+		                      <div class="col-md-2"><ui:include src="/resources/components/menuImpressao.xhtml"/></div>
+		                 </div>                            
+		            </div>
+				</div>
+				<h:form id="formCadastro" prependId="false">
+				
+					<!-- USANDO JSP ABAIXO: CRIAMOS UMA VARIAVEL ONDE VAMOS DEFINIR A OPÇÃO DE CADASTRO OU NÃO -->
+					<c:set var="isCadastro" value="false" scope="view"/>
+					
+					<div class="panel-footer" id="painelCadastro" >
+						<div class="row">
+			                 <div class="col-lg-3">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-3">
+										<p:outputLabel for="docMaterial" value="Material" id="labelMaterial" style="margin-top: 12px;"/>
+	                                </div>
+	                                <div class="col-md-9">
+	                                	<p:inputText id="docMaterial" required="true" styleClass="estiloCad"
+												value="#{produtoBeanView.objetoSelecionado.material}"
+												requiredMessage="Informe o material do produto!" placeholder="MATERIAL">
+												<f:validateDoubleRange minimum="1" maximum="99999" />
+										</p:inputText>
+										<p:message for="docMaterial"/>
+										
+	                                </div>
+	                            </div>
+			                 </div>
+			                 <div class="col-lg-6">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-1">
+										<p:outputLabel for="docNome" value="Nome" id="labelNome" style="margin-top: 12px;"/>
+	                                </div>
+	                                <div class="col-md-11">
+	                                	<p:inputText id="docNome" required="true" maxlength="80" size="80"
+												value="#{produtoBeanView.objetoSelecionado.nome}" style="width: 100%"  styleClass="estiloCad"
+												requiredMessage="Informe nome do produto!" placeholder="PRODUTO"/>
+										<p:message for="docNome"/>
+	                                </div>
+	                            </div>
+			                 </div>
+			                 <div class="col-lg-3">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-5">
+										<p:outputLabel for="docTerceiro" value="Terceiro" id="labelTerceiro" style="margin-top: 12px;"/>
+	                                </div>
+	                                <div class="col-md-7">
+	                                	<p:selectBooleanCheckbox id="docTerceiro" styleClass="estiloCad" 
+	                                		style="padding-top: 8px;"
+											value="#{produtoBeanView.objetoSelecionado.terceiro}"/>
+	                                </div>
+	                            </div>
+			                 </div>
+			                 
+			            </div>
+			            <div class="row show-grid" style="margin-top: 15px;">
+			          			<div class="col-md-12">					
+									<util:botoesCrud 
+												managedBeanView="#{produtoBeanView}" 
+												camposReload=":formTemplate:msg, tableResult"
+												botaoNovo="#{contextBean.possuiAcesso('USER', 'ADMIN')}"
+												botaoSalva="#{contextBean.possuiAcesso('USER', 'ADMIN') and produtoBeanView.objetoSelecionado.id == null}"
+												botaoAtualizar="#{contextBean.possuiAcesso('USER', 'ADMIN') and produtoBeanView.objetoSelecionado.id != null}">					
+									</util:botoesCrud>					
+			          			</div>
+			          		</div>
+			        </div>					
+										
+				</h:form>
+				
+				<script type="text/javascript" charset="UTF-8">
+				    addFocoCampo("docMaterial");
+					gerenciaTeclaEnter();
+				</script>
+		
+				
+					<div class="espacoBranco"/>
+				
+			<p:dataTable id="tableResult" value="#{produtoBeanView.produtos}" 
+							var="objeto" emptyMessage="Sem valores para exibição..." 
+							rendered="#{produtoBeanView.produtos.size() > 0}"
+							rows="9"
+							paginator="true" 
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+												
+				<p:column style="text-align: center;" filterBy="#{objeto.material}">
+							<f:facet name="header">Material</f:facet>
+							<h:outputText value="#{objeto.material}" />
+				</p:column>
+				
+				<p:column style="text-align: center;">
+							<f:facet name="header">Nome</f:facet>
+							<h:outputText value="#{objeto.nome}" />
+				</p:column>
+				
+				<p:column  style="text-align: center;">
+							<f:facet name="header">Tercerização</f:facet>
+							<h:outputText value="#{objeto.tipoProduto(objeto)}" styleClass="success"/>
+				</p:column>
+				
+				<p:column style="width: 50px;" 	exportable="false">
+						<center>
+							<f:facet name="header">Editar</f:facet>							
+							<p:commandLink action="#{produtoBeanView.editar()}" id="editarDocumento" 
+										ajax="true" immediate="true" update="@form:formCadastro"												
+										oncomplete="addFocusAoCampo('docNome');">
+										
+								<h:graphicImage library="icon" name="Edit-validated-icon32.png" style="width: 24px;"/>
+								<f:setPropertyActionListener target="#{produtoBeanView.objetoSelecionado}" value="#{objeto}"/>
+							</p:commandLink>
+
+						</center>
+					</p:column>					
+					
+					<p:column style="width: 50px;" exportable="false">
+						<center>
+							<f:facet name="header">Excluir</f:facet>
+							<p:commandLink action="#{produtoBeanView.excluir()}" id="excluirDocumento" 
+											ajax="true" immediate="true" update="tableResult" 
+											onclick="if(!confirm('Confirma a exclusão do Documento : #{objeto.nome}?')) 
+												return false;">
+									<h:graphicImage library="icon" name="Trash-icon32.png" style="width: 24px;"/>	
+									<f:setPropertyActionListener target="#{produtoBeanView.objetoSelecionado}" value="#{objeto}"/>
+							</p:commandLink>
+						</center>
+					</p:column>
+				
+				</p:dataTable>
+				
+			</ui:define>	
+	</ui:composition>
+		
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<!-- prependId: FAZ COM QUE O JSF NÃO MONTE OS IDS COMO : FORM... 
+		
+		
+	-->
+
+	<h:form id="formCadastroDialog" prependId="false">
+		<div class="panel panel-info">
+             <div class="panel-heading">
+				Alterar senha
+			 </div>
+			 
+			 <div class="panel-body">
+             <div class="row" id="gridAlterarSenhaDialog">
+                    <div class="col-lg-6">
+						<h:outputLabel value="Senha atual: " id="labelSenhaAtual" for="senhaAtual"/>
+                    </div>				
+                    <div class="col-lg-6">
+                    	<p:password inline="senhaAtualDialog" styleClass="form-group" id="senhaAtual"
+                    				maxlength="20" required="true" requiredMessage="Informe a senha atual"
+                    				value="#{entidadeBeanView.entidadeAtualizaSenhaBean.senhaAtual}"/>		
+                    </div>
+                    <div class="col-lg-12">
+                    	<p:message for="senhaAtual" />	
+                    </div>
+                    
+                    <div class="col-lg-6">
+						<h:outputLabel value="Nova senha: " id="labelNovaSenha" for="novaSenha"/>
+                    </div>								
+                    <div class="col-lg-6">
+                    	<p:password inline="novaSenhaDialog" styleClass="form-group" id="novaSenha"
+                    				maxlength="20" required="true" requiredMessage="Informe a nova senha"
+                    				value="#{entidadeBeanView.entidadeAtualizaSenhaBean.novaSenha}"/>			
+                    </div>
+                    <div class="col-lg-12">
+                    	<p:message for="novaSenha" />	
+                    </div>
+                    
+                    <div class="col-lg-6">
+						<h:outputLabel value="Confirme senha: " id="labelConfirmeSenha" for="confirmeSenha"/>
+                    </div>								
+                    <div class="col-lg-6">
+                    	<p:password inline="novaSenhaDialog" styleClass="form-group" id="confirmeSenha"
+                    				maxlength="20" required="true" requiredMessage="Confirme a nova senha"
+                    				value="#{entidadeBeanView.entidadeAtualizaSenhaBean.confirmaSenha}"/>			
+                    </div>
+                    <div class="col-lg-12">
+                    	<p:message for="confirmeSenha" />	
+                    </div>
+			 </div>
+			 </div>
+
+			 <p:commandButton value="Salvar" ajax="true" partialSubmit="true" 
+				process="@this, @form" id="buttonSalvarAlteraSenha" 
+				immediate="false" 
+				style="height:40px;width:100%;background: rgba(12, 110, 23, 0.8); border: 1px solid #FFFFFF; color: white;" 
+				action="#{entidadeBeanView.updateSenha}"/>
+		</div>
+
+	</h:form>		
+</html>

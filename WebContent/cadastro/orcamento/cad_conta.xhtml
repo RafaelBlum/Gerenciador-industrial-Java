@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+			<ui:define name="corpo">
+				
+				<div class="panel panel-info" style="margin: 0px;">	
+					<div class="panel-heading">
+		                 
+		                 <div class="row show-grid">
+		                      <div class="col-md-10" style="padding-top: 6px; font-size: 16px;">Cadastro Conta Razão</div>
+		                      <div class="col-md-2"><ui:include src="/resources/components/menuImpressao.xhtml"/></div>
+		                 </div>                            
+		            </div>
+				</div>	
+				<h:form id="formCadastro" prependId="false">
+				
+					<!-- USANDO JSP ABAIXO: CRIAMOS UMA VARIAVEL ONDE VAMOS DEFINIR A OPÇÃO DE CADASTRO OU NÃO -->
+					<c:set var="isCadastro" value="false" scope="view"/>
+					
+					<div class="panel-footer" id="painelCadastro" >
+						<div class="row">
+			                 <div class="col-lg-3">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-3">
+										<p:outputLabel for="docConta" value="Conta " id="labelConta"/>
+	                                </div>
+	                                <div class="col-md-9">
+	                                	<p:inputMask id="docConta" required="true" maxlength="5" style="padding: 5px;"
+												value="#{contaRazaoBeanView.objetoSelecionado.conta}" 
+												requiredMessage="Número de CONTA é obrigatória!" placeholder="Insira Conta"
+												mask="99999">
+										</p:inputMask>
+										<p:message for="docConta"/>
+	                                </div>
+	                            </div>
+			                 </div>
+			                 <div class="col-lg-9">
+			                 	<div class="row show-grid">
+	                                <div class="col-md-1">
+										<p:outputLabel value="Descrição" id="labelDescConsultaConta" for="docDesc"/>
+	                                </div>
+	                                <div class="col-md-11">
+	                                	<p:inputText id="docDesc" styleClass="estyleInputName" 
+											required="true" maxlength="30" value="#{contaRazaoBeanView.objetoSelecionado.descricao}"
+											requiredMessage="Informe a descrição!" placeholder="Insira descrição" style="width: 100%;">
+										</p:inputText>
+										<p:message for="docDesc"/>
+	                                </div>
+	                            </div>
+			                 </div>
+			            </div>
+			            <div class="row show-grid" style="margin-top: 15px;">
+			          			<div class="col-md-12">					
+									<util:botoesCrud 
+												managedBeanView="#{contaRazaoBeanView}" 
+												camposReload=":formTemplate:msg, tableResult"
+												botaoNovo="#{contextBean.possuiAcesso('ADMIN')}"
+												botaoSalva="#{contextBean.possuiAcesso('ADMIN') and contaRazaoBeanView.objetoSelecionado.id == null}"
+												botaoAtualizar="#{contextBean.possuiAcesso('ADMIN') and contaRazaoBeanView.objetoSelecionado.id != null}">
+									</util:botoesCrud>					
+			          			</div>
+			          		</div>
+			        </div>
+				</h:form>
+				
+				<script type="text/javascript" charset="UTF-8">
+				    addFocoCampo("docConta");
+					gerenciaTeclaEnter();
+				</script>
+				
+					<div class="espacoBranco"/>
+				
+				<p:dataTable id="tableResult" value="#{contaRazaoBeanView.contas}" 
+							var="objeto" emptyMessage="Sem valores para exibição..." 
+							rendered="#{contaRazaoBeanView.contas.size() > 0}"
+							rows="10"
+							paginator="true" 
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+							
+				<p:column style="text-align: center;" filterBy="#{objeto.conta}">
+							<f:facet name="header">Conta</f:facet>
+							<h:outputText value="#{objeto.conta}" />
+				</p:column>
+				
+				<p:column style="text-align: center;" filterBy="#{objeto.descricao}">
+							<f:facet name="header">Descrição</f:facet>
+							<h:outputText value="#{objeto.descricao}" />
+				</p:column>
+				
+				<p:column style="text-align: center;">
+							<f:facet name="header">Valor total R$</f:facet>
+							<h:outputText value="#{objeto.valorGeral}">
+								<f:convertNumber locale="pt_BR" minFractionDigits="2"/>
+							</h:outputText>
+				</p:column>
+				
+				<p:column style="width: 50px;" exportable="false"	>
+						<center>
+							<f:facet name="header">Editar</f:facet>							
+							<p:commandLink action="#{contaRazaoBeanView.editar()}" id="editarConta" 
+										ajax="true" immediate="true" update="@form:formCadastro"												
+										oncomplete="addFocusAoCampo('docConta');">
+										
+								<h:graphicImage library="icon" name="Edit-validated-icon32.png" style="width: 24px;"/>
+								<f:setPropertyActionListener target="#{contaRazaoBeanView.objetoSelecionado}" value="#{objeto}"/>
+							</p:commandLink>
+
+						</center>
+					</p:column>					
+					
+					<p:column style="width: 50px;" exportable="false">
+						<center>
+							<f:facet name="header">Excluir</f:facet>
+							<p:commandLink action="#{contaRazaoBeanView.excluir()}" id="excluirConta" 
+											ajax="true" immediate="true" update="tableResult" 
+											onclick="if(!confirm('Confirma a exclusão da conta : #{objeto.conta}?')) 
+												return false;">
+									<h:graphicImage library="icon" name="Trash-icon32.png" style="width: 24px;"/>	
+									<f:setPropertyActionListener target="#{contaRazaoBeanView.objetoSelecionado}" value="#{objeto}"/>
+							</p:commandLink>
+						</center>
+					</p:column>
+				
+				</p:dataTable>
+				
+			</ui:define>	
+	</ui:composition>
+		
+</html>

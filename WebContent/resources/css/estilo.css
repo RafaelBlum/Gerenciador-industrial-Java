@@ -1,0 +1,787 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;
+	font-family: arial, helvetic, sans-serif;
+}
+
+.teste{
+	background: url("#{resource['img:background.png']}");
+	background-repeat: round;
+}
+
+#titulo{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 2em;
+	font-weight: bold;
+	
+}
+
+#tituloLateral{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.botaoIcon{
+	opacity: 0.5;
+	width: 64px;
+}
+
+.botaoIconLateral{
+	opacity: 1;
+	width: 26px;
+	box-shadow: black;
+	 
+}
+
+.painel-lateral{
+	background: rgba(12, 100, 120, 0.7);
+	box-shadow: 5px 5px 5px rgba(77, 77, 77,0.8);
+}
+
+/* REAJUSTANDO CSS BOOTSTRAP*/
+.btn {
+	border: none;
+}
+
+.btn-success {
+    color: #fff;
+    font: bold;
+    background-color: #89c989;
+}
+
+.button_criar{
+	border-radius: 30px;
+	box-shadow: 1px solid black;
+}
+
+.bordaImagem{
+	border: 0px;
+}
+
+.buttonPesquisa{
+	height: 20px;
+	width: 23px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+
+
+.buttonAdiciona {
+	height: 20px;
+	width: 23px;
+	margin-left: 1px;
+	margin-right: 1px;
+	vertical-align: bottom;
+}
+
+.imgPesquisa {
+	height: 15px;
+	width: 18px;
+	background-image: url("#{resource['img/zoom.gif']}") !important;
+}
+
+.imgCorreioMenu {
+	height: 30px;
+	width: 30px;
+	background-size: 30px;
+	background-image: url("#{resource['icon/email-msg.gif']}") !important;
+}
+
+.imgSairMenu {
+	height: 30px;
+	width: 30px;
+	background-size: 30px;
+	background-image: url("#{resource['icon/sair.gif']}") !important;
+}
+
+.imgHomeMenu {
+	height: 40px;
+	width: 40px;
+	background-size: 30px;
+	background-image: url("#{resource['icon/home.gif']}") !important;
+}
+
+.imgDocumentoMenu {
+	height: 30px;
+	width: 30px;
+	background-size: 20px;
+	background-image: url("#{resource['icon/doc.gif']}") !important;
+}
+
+.imgDocMenu {
+	height: 30px;
+	width: 30px;
+	background-size: 30px;
+	background-image: url("#{resource['icon/pasta.gif']}") !important;
+}
+
+.imgAdiciona {
+	height: 15px;
+	width: 18px;
+	background-image: url("#{resource['img/add_16.png']}") !important;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:focus {
+	outline: none;
+}
+
+.estiloSpan {
+	color: red;
+	font-size: 14px;
+}
+
+
+/*BARRA DO TOPO DA PÃ�GINA*/
+#topo {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 80px;
+	background-color: #F7F6F5;
+}
+
+#saidaUltimoAcesso{
+	font-size: 12px;
+}
+
+#menu {
+	position: absolute;
+	top: 80px;
+	left: 0px;
+	right: 0px;
+	height: 30px;
+	background-color: #F7F6F5;
+}
+
+
+
+#menupop {
+	position: absolute;
+	border: 1px solid #61cded;
+	top: 63px;
+	right: 25px;
+	height: 45px;
+	width: 190px;
+	background-color: white;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 2px 2px 2px 3px;
+}
+
+
+#menupop a:hover {
+	background-color: #e5e5e5;
+}
+
+#dialogo {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	bottom: 0px;
+	background: url('imagens/fundopesquisa.png');
+	padding: 10px;
+}
+
+#dialogo #corpodialogo {
+	position: absolute;
+	border: 1px solid black;
+	background-color: white;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	top: 50%;
+	left: 50%;
+	padding: 5px;
+}
+
+#dialogo2 {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	bottom: 0px;
+	background: transparent;
+	padding: 10px;
+}
+
+#dialogo2 #corpodialogo2 {
+	position: absolute;
+	border: 1px solid black;
+	background-color: white;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	top: 50%;
+	left: 50%;
+	padding: 5px;
+}
+
+#dialogopesquisa {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	bottom: 0px;
+	background: transparent;
+	padding: 10px;
+}
+
+#dialogopesquisa #corpodialogopesquisa {
+	position: absolute;
+	border: 1px solid black;
+	background-color: white;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	top: 50%;
+	left: 50%;
+	padding: 5px;
+}
+
+#dialogopesquisa #corpodialogopesquisa #topodialogopesquisa {
+	position: relative;
+	background-color: #61c0e0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	top: 0;
+	left: 0;
+	padding: 5px;
+	box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.30);
+}
+
+#dialogopesquisa #corpodialogopesquisa #paginapesquisa {
+	position: relative;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 5px;
+	bottom: 20px;
+	top: 10px;
+	height: 285px;
+}
+
+#dialogopesquisa #corpodialogopesquisa #botoespesquisa {
+	position: relative;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	text-align: right;
+	left: 0;
+	bottom: 0px;
+	height: 20px;
+	padding: 5px;
+}
+
+#iniciarmenu {
+	border: 1px solid gray;
+	background-color: white;
+	margin-top: 4px;
+	margin-left: 9px;
+	padding: 3px 10px 6px 20px;
+	width: 81px;
+	height: 19px;
+	display: block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-face: sans-serif;
+	font-size: 10px;
+	cursor: pointer;
+	box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
+}
+
+
+#iniciarmenu #imageminiciarmenu {
+	margin-left: -14px;
+	display: inline-block;
+	float: left;
+}
+
+#barramenu {
+	display: block;
+	background-color: #F7F6F5;
+	position: absolute;
+	top: 110px;
+	width: 200px;
+	bottom: 0px;
+	left: 0px;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+
+/*TESTE DE UNIDADE*****************************************************************/
+#menuGer {
+	display: block;
+	background-color: #F7F6F5;
+	position: absolute;
+	top: 90px;
+	width: 200px;
+	bottom: 0px;
+	left: 0px;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+
+#col_esq{
+	float: left;   
+	width: 80%; 
+	padding-right: 10px;
+}
+
+#col_dir { 
+	float: none; 
+	margin-left: 80%; 
+}
+
+#imagemlogin {
+	position: absolute;
+	top: 30px;
+	right: 60px;
+}
+
+#keyslogin {
+	position: absolute;
+	bottom: 35px;
+	right: 240px;
+	z-index: 999;
+}
+
+#formlogin {
+	position: absolute;
+	bottom: 60px;
+	right: 60px;
+	left: 0px;
+	background-color: #e5e5e5;
+	display: block;
+	-webkit-border-top-right-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	-moz-border-radius-topright: 8px;
+	-moz-border-radius-bottomright: 8px;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	padding-top: 30px;
+	padding-right: 20px;
+	padding-bottom: 10px;
+}
+
+#dadoslogin {
+	background: #61cded;
+	background-image: -moz-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: -webkit-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: -o-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: -ms-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	position: absolute;
+	right: 20px;
+	top: 14px;
+	width: 200px;
+	padding: 6px;
+	background-color: #61c0e0;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+}
+
+.ui-growl {
+	position: fixed;
+	top: 10%;
+	right: 5px;
+	width: 301px;
+}
+
+.tituloJanela {
+	position: relative;
+	background-color: #61c0e0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	top: 0;
+	left: 0;
+	padding: 5px 5px 5px 5px;
+	box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.30);
+	margin-bottom: 8px;
+}
+
+.tituloListagem {
+	text-align: left;
+	margin: 0px 0px 3px 0px;
+	padding: 5px 5px 8px 10px;
+	background: #61cded;
+	background-image: -moz-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: -webkit-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: -o-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: -ms-linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	background-image: linear-gradient(rgba(255, 255, 255, .3),
+		rgba(255, 255, 255, 0) );
+	-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+	font-size: 14px;
+}
+
+input[type=button] {
+	margin: 1px 2px 1px 2px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+input[type=submit] {
+	margin: 1px 2px 1px 2px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+#barraerro {
+	position: absolute;
+	height: 60px;
+	border: 1px solid #980021;
+	background-image: linear-gradient(to bottom, #cf2b4f, #980021);
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	color: white;
+	padding-left: 20px;
+	padding-top: 10px;
+	font-size: 12px;
+}
+
+#barraerro #mensagembarraerro {
+	padding-left: 60px;
+	padding-right: 10px;
+}
+
+#corpo {
+	bottom: 2px;
+	right: 2px;
+	left: 2px;
+	top: 112px;
+	position: absolute;
+	padding: 8px;
+}
+
+#linhaSelecao span {
+	display: inline-block;
+}
+
+#linhaSelecao:hover {
+	background-color: #C0C8CB;
+}
+
+#linhaSelecaoPesquisa span {
+	display: inline-block;
+	cursor: pointer;
+}
+
+#linhaSelecaoPesquisa:hover {
+	background-color: #C0C8CB;
+}
+
+.iconepesquisa {
+	cursor: pointer;
+	width: 14px;
+	vertical-align: middle;
+	padding-left: 2px;
+}
+
+.bordaImagem {
+	border: 0;
+}
+
+.espacoBranco {
+	height: 10px;
+}
+
+.styleFildSet {
+	width: 100%;
+}
+
+.botaoPesquisa {
+	height: 23px;
+}
+
+.valorPesquisa {
+	width: 400px;
+}
+
+.estiloIdCadastro {
+	width: 115px;
+	margin-left: 5px;
+}
+
+.estyleInputName {
+	width: 500px;
+	margin-left: 5px;
+}
+
+.estiloCad{
+	margin: 10px 10px 10px 0px;
+}
+
+a.ui-menuitem-link.ui-corner-all.ui-state-hover {
+	background: none repeat scroll 0% 0% transparent;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius: 5px; /* Para Firefox */
+	-webkit-border-radius: 5px; /*Para Safari e Chrome */
+	border-radius: 5px; /* Para Opera 10.5+*/
+}
+
+.ui-datatable table {
+	border-collapse: separate;
+}
+
+.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td {
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius: 5px; /* Para Firefox */
+	-webkit-border-radius: 5px; /*Para Safari e Chrome */
+	border-radius: 5px; /* Para Opera 10.5+*/
+	border-color: white; /*cor das linha nos data table*/
+}
+
+.ui-corner-bottom {
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius: 5px; /* Para Firefox */
+	-webkit-border-radius: 5px; /*Para Safari e Chrome */
+	border-radius: 5px; /* Para Opera 10.5+*/
+}
+
+.ui-corner-all {
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius: 5px; /* Para Firefox */
+	-webkit-border-radius: 5px; /*Para Safari e Chrome */
+	border-radius: 5px; /* Para Opera 10.5+*/
+}
+
+/*
+DESTE PONTO PARA BAIXO CSS QUE ALTERA GERAL O PRIMEFACES
+*/
+.ui-panel .ui-panel-titlebar {
+	padding: 0.1em 1em 0.1em;
+}
+
+.ui-panel {
+	padding: 0.1em;
+}
+
+.ui-panel .ui-panel-content {
+	border: 0px none;
+	background: none repeat scroll 0% 0% transparent;
+	padding: 0.2em 0.2em;
+}
+
+.ui-selectonemenu {
+	top: 1px;
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	overflow: hidden;
+	height: 22px;
+}
+
+.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td {
+	padding: 2px 2px;
+	overflow: hidden;
+	border-width: 1px;
+	border-style: solid;
+	border-color: white; /*cor das linha nos data table*/
+}
+
+.ui-paginator .ui-paginator-page,.ui-paginator .ui-paginator-pages,.ui-paginator .ui-paginator-next,.ui-paginator .ui-paginator-last,.ui-paginator .ui-paginator-first,.ui-paginator .ui-paginator-prev,.ui-paginator .ui-paginator-current
+	{
+	display: inline-block;
+	margin-right: 3px;
+	outline: medium none;
+	margin-left: 3px;
+	text-decoration: none;
+	padding: 0px 0px;
+}
+
+.ui-widget-header {
+	border: none;
+	color: #000;
+	font-weight: bold;
+	background: none;
+}
+
+.ui-button {
+	display: inline-block;
+	position: relative;
+	padding: 0px;
+	margin-right: 0.2em;
+	text-decoration: none !important;
+	cursor: pointer;
+	text-align: center;
+	overflow: visible;
+	height: 24px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius: 5px; /* Para Firefox */
+	-webkit-border-radius: 5px; /*Para Safari e Chrome */
+	border-radius: 5px; /* Para Opera 10.5+*/
+	border: 1px solid #AED0EA;
+	font-weight: bold;
+}
+
+.ui-panelgrid td {
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	padding: 0px 0px;
+	border-color: white; /*cor das linha nos data table*/
+}
+
+.ui-button-icon-only .ui-button-text {
+	padding: inherit;
+	text-indent: -9999999px;
+}
+
+.ui-inputfield,.ui-widget-content .ui-inputfield,.ui-widget-header .ui-inputfield
+	{
+	background: #ffffff;
+	-moz-box-shadow: inset 0 1px 1px #8f8f8f;
+	-webkit-box-shadow: inset 0 1px 1px #8f8f8f;
+	box-shadow: inset 0 1px 1px #8F8F8F;
+	color: #000000;
+}
+
+.ui-fieldset,.ui-fieldset .ui-fieldset-legend {
+	padding: 0.1em 1em;
+}
+
+.calendar .ui-button-icon-only {
+	height: 22px;
+	width: 22px;
+	vertical-align: bottom;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.calendarOculta .ui-button-icon-only {
+	height: 22px;
+	width: 22px;
+	vertical-align: bottom;
+	margin-left: 1px;
+	margin-right: 1px;
+	display: none;
+}
+
+.ui-datatable thead th,.ui-datatable tbody td {
+	border: 1px solid white !important; 
+}
+
+/*MEUS ESTILOS*/
+
+.logoprincipal{
+	margin: 3px;
+}
+
+#alterarSenhaDialog{
+    padding: 0px;
+    background: rgba(0, 0, 0, 0.0);
+    border: none;
+    border-style: none;
+}
+
+.ui-icon-closethick{
+	background: url("#{resource['img:cancel-icon.png']}") !important;
+}
+
+#alterarMsgDialog{
+	background: url("#{resource['img:5.jpg']}") !important;
+}
+
+
+.ui-datatable .ui-column-filter {
+    border: none;
+    padding: 2px;
+    display: inline;
+    margin-left: 6px;
+    width: 200px;
+}
+
+
+.ui-picklist .ui-picklist-list{
+	height: 200px;
+	background: rgba(0, 10, 100, 0.2);;
+	list-style-type: none;
+	margin: 0;
+	overflow: auto;
+	padding: 0;
+	width: 200px;
+}
+
+.ui-widget-content{
+	background: none repeat scroll 0 0 white;
+	border: 1px solid #a8a8a8;
+	color: #4f4f4f;
+}
+
+.ui-widget{
+	font-family: sans-serif;
+	font-size: 13px;
+}
+
+.ui-widget-header{
+	color: rgba(120, 100, 0, 0.5);
+	font-family: fantasy;
+	font-size: 13px;
+}
+
+.fa-heart:before{
+	font-family: 'FontAwesome';
+	content:"\f004";
+	}
+
+

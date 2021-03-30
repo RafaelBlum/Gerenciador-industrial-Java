@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+			<ui:define name="corpo">
+			<p:growl id="mensagem"/>
+			
+			<h:form id="formRC">	
+
+				<div class="row">			
+					<div class="col-lg-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                            	<div class="row show-grid">
+                                    <div class="col-md-1">
+                                    	<h:graphicImage library="icon" name="correio.png"/>
+                                    </div>
+                                    <div class="col-md-11" style="padding-top: 4px;"><h4>Caixa de entrada</h4></div>
+                             	</div>                             
+                           	</div>
+                            
+                            <div class="panel-body">
+                                <div class="row">
+				                    <div class="col-lg-12" style="font-size: 14px;">
+				                       
+				                    </div>
+						
+                				</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                   </div>
+                </div> 
+
+
+				<p:dataTable id="tableResultItens" value="#{mensagemBeanView.listaMensagensUser}" 
+							var="objeto" emptyMessage="Sem valores para exibição..."
+							rows="10"
+							paginator="true" 
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Assunto</f:facet>
+										<h:outputText value="#{objeto.men_assunto}" />
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Horário</f:facet>
+										<h:outputText value="#{objeto.men_datahora}" />
+									</center>
+							</p:column>
+							
+							<p:column>
+									<center>
+										<f:facet name="header">Mensagens</f:facet>
+										<h:outputText value="#{objeto.men_mensagem}" />
+									</center>
+							</p:column>
+							
+						</p:dataTable>
+				</h:form>
+				
+				
+				
+			</ui:define>	
+	</ui:composition>
+		
+</html>

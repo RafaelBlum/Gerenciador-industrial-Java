@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+	<ui:define name="corpo">
+	
+		<h:form id="formCadastro" prependId="false">
+		<c:set var="isCadastro" value="true" scope="view"/>
+		
+		<!-- 
+			Long ent_codigo
+			String ent_login
+			String ent_senha
+			Boolean ent_inativo
+			String ent_nomefantasia
+			Date ent_ultimoacesso
+			List acessos
+		 -->
+		<div class="panel panel-info" style="margin: 0px;">	
+			<div class="panel-heading">
+                 Cadastro de usuários                              
+            </div>
+		</div>
+		
+		<div class="panel-footer">
+			<div class="row">
+                 <div class="col-lg-12">
+                 
+                 	<div class="row show-grid">
+                        <div class="col-xs-12 col-sm-6 col-md-8">
+							<div class="row show-grid">
+                                    <div class="col-md-4">.col-md-4ss</div>
+                                    <div class="col-md-4">.col-md-4</div>
+                                    <div class="col-md-4">.col-md-4</div>
+                             </div>
+                    	</div>
+                    	
+                    	
+                        <div class="col-xs-6 col-md-4">
+                        	<div class="row show-grid">
+                                <div class="col-md-12">.col-md-4ss</div>
+                                <div class="col-md-12">.col-md-4</div>
+                            </div>
+                        </div>
+                    </div>
+      
+             	</div>
+             </div>
+		</div>	
+			<util:botoesCrud managedBeanView="#{funcionarioBeanView}"
+				camposReload=":formTemplate:msg, tableResult"
+				botaoNovo = "#{contextoBean.possuiAcesso('CIDADE_NOVO', 'ADMIN')}"
+				botaoSalvar = "#{contextoBean.possuiAcesso('CIDADE_NOVO', 'ADMIN') and funcionarioBeanView.objetoSelecionado.ent_codigo == null}"
+				botaoAtualizar = "#{contextoBean.possuiAcesso('CIDADE_NOVO', 'ADMIN') and funcionarioBeanView.objetoSelecionado.ent_codigo != null}"
+				botaoExcluir = "#{contextoBean.possuiAcesso('CIDADE_NOVO', 'ADMIN')}"/>					
+		</h:form>
+
+		<script type="text/javascript" charset="UTF-8">
+		    addFocoCampo("ent_nomefantasia");
+			gerenciaTeclaEnter();
+		</script>
+
+
+		<div class="espacoBranco" />
+		
+		<p:dataTable id="tableResult" value="#{funcionarioBeanView.lista}"
+							rendered="#{funcionarioBeanView.lista.size() > 0}" 
+							var="objeto" 
+							emptyMessage="Sem valores para exibição..."							
+							rows="8"
+							paginator="true"
+							lazy="true"
+							paginatorPosition="bottom"
+							paginatorTemplate=" {FirstPageLink}
+												{PreviousPageLink} {PageLinks}
+												{NextPageLink} {LastPageLink} 
+												{RowsPerPageDropdown} ">
+							
+					<p:column style="text-align: center;">
+						<f:facet name="header">Código</f:facet>
+						<h:outputText value="#{objeto.ent_codigo}" />
+					</p:column>
+					
+					<p:column style="text-align: center;" filterBy="#{objeto.ent_login}">
+						<f:facet name="header">Login</f:facet>
+						<h:outputText value="#{objeto.ent_login}" />
+					</p:column>
+					
+					<p:column style="text-align: center;">
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{objeto.ent_nomefantasia}" />
+					</p:column>
+					
+					<p:column style="text-align: center;">
+						<f:facet name="header">Senha</f:facet>
+						<h:outputText value="#{objeto.ent_senha}" />
+					</p:column>
+					
+					<p:column style="text-align: center;">
+						<f:facet name="header">Acesso</f:facet>
+						<h:outputText value="#{objeto.permissao}" />
+					</p:column>
+					
+					<p:column style="text-align: center;">
+						<f:facet name="header">Tipo</f:facet>
+						<h:outputText value="#{objeto.tipoEntidade}" />
+					</p:column>
+					
+					<p:column style="text-align: center;">
+						<f:facet name="header">Ultimo Acesso</f:facet>
+						<h:outputText value="#{objeto.ent_ultimoacesso}" />
+					</p:column>
+					
+					<p:column style="width: 50px;" exportable="false"	>
+						<center>
+							<f:facet name="header">Editar</f:facet>							
+							<p:commandLink action="#{funcionarioBeanView.editar()}" id="editarUser" 
+										ajax="true" immediate="true" update="@form:formCadastro"												
+										oncomplete="addFocoAoCampo('itemNome');">
+										
+								<h:graphicImage library="icon" name="Edit-validated-icon32.png" style="width: 24px;"/>
+								<f:setPropertyActionListener target="#{funcionarioBeanView.objetoSelecionado}" value="#{objeto}"/>
+							</p:commandLink>
+
+						</center>
+					</p:column>
+							
+					<p:column style="width: 50px;" exportable="false">
+						<center>
+							<f:facet name="header">Excluir</f:facet>
+							<p:commandLink action="#{funcionarioBeanView.excluir()}" id="excluirUser" 
+											ajax="true" immediate="true" update="tableResult" 
+											onclick="if(!confirm('Confirma a exclusão do Item : #{objeto.ent_nomefantasia}?')) 
+												return false;">
+									<h:graphicImage library="icon" name="Trash-icon32.png" style="width: 24px;"/>	
+									<f:setPropertyActionListener target="#{funcionarioBeanView.objetoSelecionado}" value="#{objeto}"/>
+							</p:commandLink>
+						</center>
+					</p:column>
+				
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>
+		
+</html>

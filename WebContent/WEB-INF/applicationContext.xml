@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
+	default-lazy-init="true">
+	
+	 <!-- AULA 124: CONFIGURAÇÕES DO SPRING :: USADO PARA CARREGAR SERVIÇOS E NÃO USA MEMORIA DE SERVIDOR. 
+	 													SPRING UTILIZA BEAN CLASSES JAVA PARA PROCESSAR.	-->
+	
+	<!-- ATIVA VARIAS ANNOTATTION PARA DETECÇÃO DAS BEANS -->
+	<context:annotation-config />		
+	<!-- CONFIGURA CONTROLADOR, IDENTIFICANDO ASSIM AS ANOTAÇÕES DO PROJETO -->
+	<mvc:annotation-driven/>
+	<!-- CONFIGURA MAPEAMENTO DO SERVLET DO SPRING -->
+	<mvc:default-servlet-handler/>
+	
+	<!-- APONTA PARA LOCAL IMG DO RESOURCES, DECLARANDO LOCAL DE RESOURCES PARA FAZER CACHE DE TUDO DENTRO, ASSIM PARA NÃO FICAR CARREGANDO TODA VEZ. -->
+	<mvc:resources location="/resources/img" 
+	   mapping="/resources/**" cache-period="5000"/>
+	   
+	<!-- ANOTAÇÕES DE TODOS PACOTES PARA O SPRING PODER LER -->
+	<context:component-scan base-package="br.com.project.geral.controller"/>   
+	<context:component-scan base-package="br.com.srv.interfaces"/>
+	<context:component-scan base-package="br.com.srv.implementacao"/>
+	<context:component-scan base-package="br.com.repository.interfaces" />
+	<context:component-scan base-package="br.com.dao.implementacao" />
+	<context:component-scan base-package="br.com.project.bean.view" />
+	<context:component-scan base-package="br.com.project.bean.geral" />
+	<context:component-scan base-package="br.com.project.report.util" />
+	<context:component-scan base-package="br.com.project.util.all" />
+	<context:component-scan base-package="br.com.project.bean.view.grafico"/>
+	<context:component-scan base-package="br.com.project.bean.view"/>
+	<context:component-scan base-package="br.com.framework.controller.crud"/>
+	<context:component-scan base-package="br.com.framework.interfac.crud"/>
+	
+	<!-- DATA SOUUCES - 
+			LAZY-INIT: QUEREMOS QUE O DATA SOURCES SEJA CRIADO QUANDO O SERVIDOR ESTIVER SUBINDO A APLICAÇÃO-->
+	<bean id="springDataSource" name="springDataSource"
+	    class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="false">
+		<property name="jndiName">
+			<value>java:comp/env/jdbc/datasource</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate" 
+	   lazy-init="false" >
+		 <property name="dataSource" ref="springDataSource"/>	
+		 <property name="baselineOnMigrate" value="true"/>
+		 <property name="table" value="version"/>
+		 <property name="sqlMigrationPrefix" value="v"/>
+		 <property name="sqlMigrationSeparator" value="_"/>
+		 <property name="encoding" value="ISO-8859-1"/>
+		 <property name="validateOnMigrate" value="true"/>
+	</bean>
+	
+	<!-- DEFINIR A PARTE DE JDBC DO SPRINGFRAMEWORK -->
+	<bean id="transactionManager" name="transactionManager"
+	 class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+	 lazy-init="false">
+	  <property name="dataSource" ref="springDataSource"/>
+	</bean>
+	
+	<!-- PRECISAMOS DECLARAR OS ARQUIVO DO JDBC DO SPRING -->
+	<bean id="jdbcTemlate" name="jdbcTemlate"
+	 	class="br.com.framework.implementacao.crud.JdbcTemplateImpl">
+		<constructor-arg name="dataSource" ref="springDataSource"/>
+	</bean>
+	
+	<bean id="simpleJdbcTemplate" name="simpleJdbcTemplate"
+		class="br.com.framework.implementacao.crud.SimpleJdbcTemplateImpl">
+		<constructor-arg name="dataSource" ref="springDataSource"/>
+	</bean>	
+	
+	  <bean id="simpleJdbcInsert" name="simpleJdbcInsert" 
+	  	class="br.com.framework.implementacao.crud.SimpleJdbcInsertImpl" lazy-init="false">
+     	<constructor-arg name="dataSource" ref="springDataSource"/>
+     </bean>
+     
+      <bean id="simpleJdbcClassImpl" name="simpleJdbcClassImpl" 
+      	class="br.com.framework.implementacao.crud.SimpleJdbcClassImpl" lazy-init="false">
+         <constructor-arg name="dataSource" ref="springDataSource"/>
+     </bean>
+	
+	<!-- MAPEAMENTO DAS PÁGINAS, ENDEREÇAMENTO, QUAIS EXTENÇÕES DAS PÁGINAS E ESCOPO
+			CASO UTILIZAREMOS JSP - INDEX.JSP -->
+	 <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"
+	       lazy-init="false">
+	  		<property name="mappings">
+	  			<props>
+	  				<prop key="/index.jsp">indexController</prop>
+	  			</props>
+	  		</property>
+	 </bean>
+	 
+	  <bean id="viewResolver"
+	        class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+	        lazy-init="false">
+	        <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView"/>
+	        <property name="prefix" value="/WebContent/"/>
+	        <property name="suffix" value="*.jsf, *.xhtml, *.html, *.jsp, *.js"/>
+	  </bean>
+	  
+	  <!-- COMO NÃO SERÁ ESTANCIADO, CRIADO O indexController, O SPRING OBRIGA A DECLAR O indexController NATIVO DELE-->	  
+	  <bean name="indexController" lazy-init="false" 
+	  class="org.springframework.web.servlet.mvc.ParameterizableViewController"/>
+	  
+	  <!-- ViewScope: CONFIGURAÇÃO DESTA CLASSE CRIADA NO PROJETO, APONTANDO A ELA 
+	  					E DIZER PARA ELE QUE ESTAMOS TRABALHANDO COM CUSTOMIZAÇÃO DE VIEW -->
+	  <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer" lazy-init="false">
+	     <property name="scopes">
+	     	 <map>
+	     	 	<entry key="view">
+	     	 		 <bean class="br.com.project.bean.geral.ViewScope"/>
+	     	 	</entry>
+	     	 </map>
+	     </property>
+	  </bean>
+	  
+	  <!-- DECLARAÇÃO DE SERVIÇOS, COMO REPORTUTIL DE RELATÓRIOS -->
+	 <bean id="reportUtil" class="br.com.project.report.util.ReportUtil"/> 
+	 <bean id="utilFramework" class="br.com.framework.utils.UtilFramework" scope="session"/> 
+	 <bean id="controller" name="controller" class="br.com.framework.controller.crud.Controller"/>
+
+	  <!-- SERVICES -->
+	  <bean id="srvLogin" class="br.com.srv.implementacao.SrvLoginImpl" scope="singleton"/>
+
+	 <!-- DAOS (estrutura de persistencia)-->
+	 <bean id="repositoryLogin" class="br.com.repository.interfaces.DaoLogin" scope="singleton"/>
+
+	 <!-- CONTROLLERS (estrutura de persistencia) -->
+	 <bean id="sessionController" class="br.com.project.geral.controller.SessionControllerImpl" scope="singleton"/>
+	 <bean id="mensagemController" name="mensagemController" class="br.com.project.geral.controller.MensagemController"/>
+
+</beans>

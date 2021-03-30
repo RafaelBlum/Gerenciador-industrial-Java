@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css"/>
+	<h:outputStylesheet library="fonte" name="font-awesome.css"/>
+	<h:outputStylesheet library="css" name="estiloLogin.css" />
+	<h:outputScript name="scripty.js" library="javascript" />
+	<link rel="icon" href="../resources/icon/gear-icon.png"/>
+	<title>Login - Gerenciador Industrial</title>
+</h:head>
+	
+<h:body id="corpo">
+	<div class="container-fluid" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+        	<div id="painel" class="panel panel-default" style="background: rgba(120, 10, 320, .2); border: none;">        	
+        		<div class="panel-body">
+        			<div class="text-center">
+        				<h3><h:graphicImage library="img" name="logo-gvwhite.png" style="width: 250px;"/></h3>
+        				
+        				<div class="panel-body">
+        					
+        					<h:panelGroup rendered="#{!empty param.login_error}">
+								<h:outputLabel rendered="#{SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
+									<span class="estiloSpan">
+										Permissão Negada! Login ou senha incorretos.
+									</span>
+								</h:outputLabel>			
+								<h:outputLabel rendered="#{SPRING_SECURITY_LAST_EXCEPTION.message == 'Maximum sessions of 1 for this principal exceeded'}">
+									<span class="estiloSpan">
+										Você esta logado em outra sessão.
+									</span>
+									
+									<p:commandButton value="Encerrar" 
+										style="height: 40px; width: 100px; background: #cdcdc1; border: 1px;"
+										onclick="invalidarSession('#{request.contextPath}', '/publico/invalidarSession')"/>
+										
+								</h:outputLabel>									
+							</h:panelGroup>
+							
+							<form id="formulario" method="post" onsubmit="return validarSenhaLogin()" name="formulario"
+										action="#{request.contextPath}/j_spring_security_check" class="form-group">
+								<span class="input-group">
+									<span class="input-group-addon"><h:graphicImage library="icon" name="Administrator-icon32x32.png" style="width: 17px;"/></span>
+									<p:inputText type="text" name="j_username" id="j_username" class="form-control" placeholder="Usuário"/>	
+								</span>
+								
+								<span class="input-group">
+									<span class="input-group-addon"><h:graphicImage library="icon" name="key-icon32x32.png" style="width: 15px;"/></span>
+									<p:password name="j_password" id="j_password" class="form-control" placeholder="Senha"/>	
+								</span>
+								
+								<span class="form-group">						
+									<button type="submit"  class="btn btn-success btn-block" id="buttonLogin">
+						               Entrar
+									</button>
+								</span>
+								
+							</form>
+        				</div>        				
+        			</div>
+        		</div> 
+        	</div>            
+        </div>
+    </div>
+</div>
+
+	<script>
+		$('#j_username').focus();
+	</script>
+	
+</h:body>
+</html>

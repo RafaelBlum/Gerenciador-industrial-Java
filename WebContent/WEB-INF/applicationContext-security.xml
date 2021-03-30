@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+ http://www.springframework.org/schema/security 
+ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!--AULA 126::  CONFIGURAÇÃO DO SPRING - CABEÇALHO NA DOCUMENTAÇÃO-->
+
+	<!-- DECLARAR PORQUE PODEMOS QUERER FAZER SEGURANÇÃO DO LADO DO SERVIDOR, ABILITANDO -->
+	<global-method-security  secured-annotations="enabled"/>
+	
+	<!-- SEGURANÇÃO DO HTTP -->
+	<http auto-config="true"
+			access-denied-page="/error/acessoNegado.xhtml" 
+			use-expressions="true">
+			
+	<!-- VALIDAÇÕES DE USUÁRIOS E INTERCEPTAÇÕES 
+			PODEMOS VALIDAR OS ACESSOS A CADA PASTA PELO PERFIL DE ADMIN OU USER.-->  
+	
+	<!-- PÁGINA RESPONSVEL PARA O ADMIN CADASTRAR USERS E TER PERFIL DE ADMIN-->		
+	   <intercept-url pattern="/cadastro/cad_permissao.jsf" 
+	    access="hasAnyRole('ADMIN')" method="POST"/>
+	    
+	<!-- TODAS AS PÁGINAS AQUI SERÃO VALIDADAS -->
+	   <intercept-url pattern="/resources/components/**" 
+	   access="isAuthenticated() and hasAnyRole('USER')"/> 	
+	
+	   <intercept-url pattern="/resources/**" 
+	   access="isAuthenticated() and hasAnyRole('USER')"/>
+	   
+	   <intercept-url pattern="/restrito/**" 
+		access="isAuthenticated() and hasAnyRole('USER')"/>
+		
+	<!-- QUALQUER UM PODE RECEBER OS ERROS, AUTENTICADO OU NÃO -->
+		<intercept-url pattern="/error/**" 
+		access="isAnonymous() or isAuthenticated() or !isAuthenticated()"/>
+		
+		<intercept-url pattern="/templates/**"
+		 access="isAuthenticated() and hasAnyRole('USER')"/>
+		 
+		 <intercept-url pattern="/cadastro/**" 
+		access="isAuthenticated() and hasAnyRole('USER')"/>
+		
+	<!-- ACESSO TOTAL A TODOS USUÁRIOS -->
+		<intercept-url pattern="/publico/**" access="permitAll" /> 
+		
+		<!-- DEFINIMOS A PÁGINA PADRÃO DE O USUÁRIO FOR VALIDADO, MAS SE FALHAR REDIRECIONAMOS AO LOGIN -->
+		<form-login login-page="/publico/login.jsf" 
+		always-use-default-target="true" default-target-url="/restrito/principal.jsf"
+		authentication-failure-url="/publico/login.jsf?login_error=1"/>
+		
+		<!-- VALIDA A SESSÃO DO USUÁRIO E SE SAIU DO SISTEMA, REDIRECIONA PARA LOGIN
+				PASSAMOS UM URL PADRÃO E COMO VAMOS TRABALHAR COM COOKIES, VAMOS FAZER DELETAR. -->
+		<logout invalidate-session="true" logout-success-url="/publico/login.jsf" 
+		  logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID"/>
+		  
+		<!-- FAZ LEMBRAR LOGIN E SENHA -->
+		<remember-me token-validity-seconds="1209600"/>	
+		
+		<!-- FAZ OS USUÁRIOS ÃO ACESSAR SESSÕES EM NAVEGADORES DIFERENTES, INVALIDANDO
+				PODEMOS TMB MIGRAR A SESSÃO PARA OUTRO NAVEGADOR -->
+		<session-management invalid-session-url="/publico/login.jsf"
+		   session-fixation-protection="migrateSession">
+		   <concurrency-control max-sessions="1"
+		    expired-url="/publico/login.jsf"
+		    error-if-maximum-exceeded="true"/>
+		
+		</session-management>	
+	
+	</http>
+	
+	<!-- SEGUNDA PARTE: CONFIGURAR CONEXÃO COM BANCO DE DADOS, ACESSO E PERMISSÕES 
+			PROVIDER
+				PASSWORD
+					EM HASH PODEMOS CODIFICAR A SENHA E POR PADRÃO USAMOS HASH, MAS UTILIZAMOS PLAINTEXT PARA ESTUDO
+					USER-SERVICE USAMOS NOSSO DATA SOURCES COM A REFERÊNCIA DO SPRING
+						SQL 
+							USERNAME-QUERY-->
+	<authentication-manager>
+		 <authentication-provider>
+		 		<password-encoder hash="plaintext"/>
+		 		<jdbc-user-service data-source-ref="springDataSource"
+		 		
+		 		users-by-username-query="select ent_login as username,
+								        ent_senha as password,
+								        'true' as enable
+								        from entidade 
+								        where ent_inativo = false
+								        and upper(ent_login) = upper(?)"
+		 		
+		 		authorities-by-username-query="select u.ent_login as username,
+										p.esa_codigo as authority
+										from entidade u
+										join entidadeacesso p
+										on u.ent_codigo = p.ent_codigo
+										where u.ent_inativo = false
+										and upper(u.ent_login) = upper(?)"/>
+		 </authentication-provider>
+	</authentication-manager>
+	
+
+ </b:beans>

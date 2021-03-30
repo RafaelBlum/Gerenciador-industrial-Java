@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title><ui:insert name="titulo">Caixaki - Invalida Sessão</ui:insert></title>
+
+	<h:outputScript name="jquery.js" library="primefaces/jquery" id="jsJquery" />
+	<h:outputScript name="primefaces.js" library="primefaces" 	id="jsPrime" />
+	<h:outputScript name="jquery-plugins.js" library="primefaces/jquery" id="jsJqueryPlugin" />
+	<h:outputScript name="jquery.cookie.js" library="javascript" id="jsJaqueryCookie" />
+	<h:outputStylesheet name="jquery-ui.css" library="primefaces/jquery/ui"	id="jsJqueryUi" />
+	<h:outputStylesheet name="primefaces.css" library="primefaces"	id="jdPrimeCss" />
+	<h:outputScript name="jquery.maskMoney.min.js" library="javascript"	id="jsMaskMoneySistema" />
+	<h:outputScript name="jquery.maskedinput.js" library="javascript"	id="jsMaskInputSistema" />
+	<h:outputScript name="scripty.js" library="javascript" 	id="jsScriptSistema" />		
+	<h:outputStylesheet name="estilo.css" library="css" id="cssStiloSistema" />	
+	<h:outputStylesheet library="css" name="bootstrap.min.css" 	id="cssBootstrap" />
+
+</h:head>
+	<h:form prependId="false" id="form">
+	
+	<!-- EVITA CONFLITO ENTRE AS BIBLIOTECAS -->
+	<script type="text/javascript" charset="UTF-8">
+		$.noConflit();
+	</script>
+	
+		<body>
+			<div id="msgError" class="espacoMensagem">
+				<p:growl id="msg" showDetail="false" sticky="true" redisplay="true" autoUpdate="true" life="500"/>
+			</div>
+			
+			<p:dialog draggable="false" header="Encerrar Sessão" widgetVar="dlg" resizable="false" 
+							modal="true" closable="false">
+										
+      				<h:panelGrid columns="2" cellpadding="5">
+      				
+      				<p:outputLabel for="username" value="login: "/>
+					<p:inputText required="true" id="username" placeholder="Usuário" label="username" 
+								 requiredMessage="Informe o nome de usuário."
+								 value="#{loginBeanView.username}"/>
+										
+					<p:outputLabel for="password" value="login: "/>	
+					<p:password id="password" required="true" 
+								requiredMessage="Informe a Senha" label="password"
+								 value="#{loginBeanView.password}"/>
+					
+					<f:facet name="footer">
+						<p:commandButton value="Encerrar" style="height: 40px; width: 100px; 
+						background: #cdcdc1; border: 1px solid #fffff;"
+						
+						actionListener="#{loginBeanView.invalidar}"
+						
+						update="form:msg" ajax="true" oncomplete="handleLoginRequest(xhr, status, args)"/>
+					</f:facet>
+										
+      				</h:panelGrid>
+			</p:dialog>
+			
+		</body>
+	<script>
+		$(function() {
+			PF('dlg').show();
+		});
+
+		//EXECUTA AJAX NO SERVIDOR E TRAZ UMA RESPOSTA
+		function handleLoginRequest(xhr, status, args) {
+			
+			if (!args.loggedIn){//SE LOGIN FOR ERRADO, MANTEM O LOGIN E FAZ UM EFEITO E TEMPO/DELAY
+				PF('dlg').jq.effect("shake"), {times:5}, 100;
+			}else {
+				PF('dlg').hide();
+				document.location = '#{request.contextPath}' + "/j_spring_security_logout"
+			}
+		}		
+	</script>
+	</h:form>
+</html>

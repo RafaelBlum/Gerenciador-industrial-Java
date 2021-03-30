@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" 
+  xmlns:composite="http://java.sun.com/jsf/composite"
+  xmlns:f="http://java.sun.com/jsf/core" 
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui" 
+  xmlns:sec="http://www.springframework.org/security/facelets/tags"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+  
+	   <p:column style="text-align: center;">
+			<f:facet name="header">Código</f:facet>
+			<h:outputText value="#{objeto.ent_codigo}" />
+		</p:column>
+		
+		<p:column style="text-align: center;" filterBy="#{objeto.ent_login}">
+			<f:facet name="header">Login</f:facet>
+			<h:outputText value="#{objeto.ent_login}" />
+		</p:column>
+		
+		<p:column style="text-align: center;">
+			<f:facet name="header">Nome</f:facet>
+			<h:outputText value="#{objeto.ent_nomefantasia}" />
+		</p:column>
+		
+		<p:column style="text-align: center;" id="colunaSelecionar">
+			<f:facet name="header">Selecionar</f:facet>
+			<p:commandLink id="addSeleciona" immediate="true" partialSubmit="true" ajax="true"
+							process="@this, colunaSelecionar"
+							onclick="pesquisarUserDestinoPerderFocoDialog(#{objeto.ent_codigo}), destinoDialogMsgDialog.hide();">
+				<h:graphicImage library="icon" name="button-Add-icon.png" width="16"/>
+			</p:commandLink>
+		</p:column>
+		
+   
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/templatePrincipal.xhtml">
+			<ui:define name="corpo">
+			<div style="margin-top: 5px;">
+				<ui:include src="/resources/components/menuImpressao.xhtml"/>
+			</div>
+			
+				<h:form id="formCadastro" prependId="false">
+				
+					<!-- USANDO JSP ABAIXO: CRIAMOS UMA VARIAVEL ONDE VAMOS DEFINIR A OPÇÃO DE CADASTRO OU NÃO -->
+					<c:set var="isCadastro" value="false" scope="view"/>
+					
+					<p:panel id="painelCadastro" header="Cadastro de Orçamento anual">
+						<h:panelGrid id="gridFornecedor" columns="3">
+							<h3 id="idm">Orçamento anual</h3>
+							
+						</h:panelGrid>
+					</p:panel>
+					
+					<div class="espacoBranco"/>
+					
+					<util:botoesCrud 
+								managedBeanView="#{contaRazaoBeanView}" 
+								camposReload=":formTemplate:msg, tableResult"
+								botaoNovo="#{contextBean.possuiAcesso('CIDADE_NOVO', 'ADMIN')}"
+								botaoSalva="#{contextBean.possuiAcesso('CIDADE_NOVO', 'ADMIN') and contaRazaoBeanView.objetoSelecionado.id == null}"
+								botaoAtualizar="#{contextBean.possuiAcesso('ACESSO_EDITAR', 'ADMIN') and contaRazaoBeanView.objetoSelecionado.id != null}"
+								>
+					
+					</util:botoesCrud>					
+					
+				</h:form>
+				
+				<script type="text/javascript" charset="UTF-8">
+				    addFocoCampo("idm");
+					gerenciaTeclaEnter();
+				</script>
+				
+					<div class="espacoBranco"/>
+				
+			
+			</ui:define>	
+	</ui:composition>
+		
+</html>

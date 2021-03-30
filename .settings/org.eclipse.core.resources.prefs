@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//WebContent/resources/css/estilo.css=UTF-8
+encoding//src/br/com/framework/interfac/crud/InterfaceCrud.java=UTF-8
+encoding//src/br/com/project/Util/all/Constante.java=UTF-8
+encoding//src/br/com/project/bean/view/FornecedorBeanView.java=UTF-8
+encoding//src/br/com/project/exception/CustomExceptionHandler.java=UTF-8
+encoding//src/br/com/project/filter/FilterOpenSessionInView.java=UTF-8

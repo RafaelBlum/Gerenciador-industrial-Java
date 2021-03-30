@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context reloadable="true">
+	<Resource name="jdbc/datasource"
+			  auth="Container"
+			  type="javax.sql.DataSource"
+			  defaultAutoCommit="false"
+			  maxActive="50"
+			  maxIdle="10"
+			  maxWait="10"
+			  initialSize="10"
+			  driverClassName="com.mysql.jdbc.Driver"
+			  validationQuery="SELECT 'OK'"
+			  testWhileIdle="true"
+			  testOnBorrow="true"
+			  numTestPerEvictionRun="5"
+			  timeBetweenEvictionRunsMillis="5000"
+			  minEvictableIdleTimeMillis="60000"
+			  antiJARLocking="false"
+			  antiResourceLocking="false"
+			  username="root"
+			  password="R8F13aaB"
+			  url="jdbc:mysql://127.0.0.1:3306/gerenciador_fabril?useTimezone=true&amp;serverTimezone=UTC"/>
+	
+	
+</Context>
+
