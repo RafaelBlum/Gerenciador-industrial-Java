@@ -8,7 +8,7 @@ Projeto gerenciador de atividade da industria relacionadas a área administrativ
 
 ## Descrição:
 Este trabalho descreve a criação de uma aplicação para gerenciamento dos processos da área fabril via web, aplicado a controlar a todos processos pertinentes a área produtiva, bem como criação, consulta das entradas e saídas de ordens de produção, a gestão de controle de versões dos
-procedimentos na empresa, controle de orçamento e metas de produção. 
+procedimentos na empresa, controle de orçamento e metas de produção. <br/>
 A aplicação desenvolvida na versão 1, permite acesso fácil, rápido e simultâneo por todos os colaboradores da empresa. A especificação foi feita utilizando UML e o desenvolvimento na linguagem Java utilizando Java Server faces (JSF), e os dados ficam armazenados no banco de dados MySQL.
 Como resultado destaca-se a automatização de vários processos da área fabril que antes eram criados por planilhas.
 
